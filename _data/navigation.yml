@@ -1,0 +1,12 @@
+# Site navigation links
+- title: Home
+  url: /
+
+- title: Portfolio
+  url: /portfolio/
+
+- title: Resume
+  url: /resume/
+
+- title: About
+  url: /about/
