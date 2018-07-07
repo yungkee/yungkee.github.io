@@ -10,4 +10,4 @@ image:
 ---
 ## PROJECTS
 
- <a markdown="0" href="http://indrajith.me/resume" class="btn">Resume</a>
+ <a markdown="0" href="https://yungkee.github.io/resume" class="btn">Resume</a>

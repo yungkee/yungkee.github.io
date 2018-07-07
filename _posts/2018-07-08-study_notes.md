@@ -3,10 +3,10 @@ layout: post
 title: My study notes about programming
 modified:
 categories: 
-excerpt: for myself.....
+excerpt: I have written down a series of notes for things I should know and remember while I was looking for a job and doing interviews. The document has links about C++ and graphics and I try to keep it relevant and updated:
 tags: [Notes]
 image:
-  feature: habr.jpg
+  feature: notes.jpg
   thumb: thumb1.jpg
 date: 2018-04-15T18:54:48+05:30
 ---
