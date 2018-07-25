@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Интересные посты по C++ с хабра
+title: Interesting post topics on habr.
 modified:
 categories: 
 excerpt: for myself.....
