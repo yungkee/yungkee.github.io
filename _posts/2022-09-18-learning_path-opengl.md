@@ -5,7 +5,7 @@ modified:
 categories: 
 excerpt: Learning OpenGL
 tags: [Notes]
-date: 
+date: 2018-07-08T02:54:48+05:30
 ---
 
 ## Resources for learning computer graphics
