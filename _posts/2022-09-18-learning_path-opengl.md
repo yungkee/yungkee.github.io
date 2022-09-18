@@ -5,6 +5,9 @@ modified:
 categories: 
 excerpt: Learning OpenGL
 tags: [Notes]
+image:
+  feature: note.jpg
+  thumb: thumb1.jpg
 date: 2018-07-08T02:54:48+05:30
 ---
 
