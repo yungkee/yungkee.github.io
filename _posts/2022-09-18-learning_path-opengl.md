@@ -1,18 +1,14 @@
 ---
 layout: post
-title: LEARNING Graphics
+title: Learning Graphics
 modified:
 categories: 
 excerpt: Learning OpenGL
-tags: [study]
-image:
-  feature: note.jpg
-  thumb: thumb1.jpg
-date: 2022-09-20T18:54:48+05:30
+tags: [Notes]
+date: 
 ---
-## Resources for learning computer graphics
 
-Unreal Engine applications are built around the idea of a scene graph, where a **Scene** contains **Actors**, which are composed of **Components**, which are then composed of other complex logic. 
+## Resources for learning computer graphics
 
 [LearnOpenGL](https://www.learnopengl.com/)
 
