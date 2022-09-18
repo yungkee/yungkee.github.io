@@ -1,6 +1,6 @@
 ---
 layout: post
-title: LEARNING( ) { Graphics };
+title: LEARNING Graphics
 modified:
 categories: 
 excerpt: Learning OpenGL
