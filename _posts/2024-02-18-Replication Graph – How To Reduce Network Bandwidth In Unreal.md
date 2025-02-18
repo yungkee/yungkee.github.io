@@ -6,7 +6,7 @@ categories:
 excerpt: UnrealEngine
 tags: [Notes]
 image:
-  feature: VisibilityBasedRelevancy.gif
+  feature: RepGragh1.jpg
   thumb: thumb1.jpg
 date: 2024-02-17T02:54:48+05:30
 ---
@@ -14,8 +14,6 @@ date: 2024-02-17T02:54:48+05:30
 ## Replication Graph – How To Reduce Network Bandwidth In Unreal
 
 A crucial factor in developing networked games is managing the required bandwidth to ensure a stable and smooth gameplay experience. Sending or receiving excessive data can overload players with slower internet connections, negatively impacting the game experience. To avoid this, certain data must be prioritized, while others are delayed. This becomes especially challenging in games like Fortnite, which hosts 100 players per map, prompting Epic Games to introduce the Replication Graph as a solution.
-
-![Replication Graph6](../images/RepGragh1.jpg)
 
 Maintaining bandwidth limits is often manageable when only a few players are involved in a session. However, as the number of players increases, the amount of data required to synchronize everyone also grows. This effect is exponential, as it's not just about sending more data, but also about delivering it to a larger number of players.
 
