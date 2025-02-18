@@ -15,6 +15,8 @@ date: 2024-02-17T02:54:48+05:30
 
 A crucial factor in developing networked games is managing the required bandwidth to ensure a stable and smooth gameplay experience. Sending or receiving excessive data can overload players with slower internet connections, negatively impacting the game experience. To avoid this, certain data must be prioritized, while others are delayed. This becomes especially challenging in games like Fortnite, which hosts 100 players per map, prompting Epic Games to introduce the Replication Graph as a solution.
 
+![Replication Graph6](../images/RepGragh1.jpg)
+
 Maintaining bandwidth limits is often manageable when only a few players are involved in a session. However, as the number of players increases, the amount of data required to synchronize everyone also grows. This effect is exponential, as it's not just about sending more data, but also about delivering it to a larger number of players.
 
 One of Unreal’s key systems for addressing this issue is [Actor Relevancy](https://dev.epicgames.com/documentation/en-us/unreal-engine/actor-relevancy-and-priority?application_version=4.27). This system reduces bandwidth usage by removing actors from a player’s view when they are too far away. As a result, no updates are needed for these actors, which eliminates the need to transmit unnecessary data.
@@ -613,4 +615,4 @@ That’s it! GatherActorListsForConnection will regularly update our visible act
 ## Further Reading
 Hopefully this has been a nice introduction to how powerful the replication graph can be but we’ve only really scratched the surface. I’ve made the repository for this example public at Github if you’d prefer to read through it in your own time.
 
-Much of my knowledge is built from the LocusReplicationGraph example. This provides more functionality for creating rules for specific actors through the replication graph blueprint and is a great place to go after this article. There’s also a great example in the Lyra sample (make sure you’ve connected your Epic account to Github!).
+Much of my knowledge is built from the LocusReplicationGraph  [LocusReplicationGraph]https://github.com/locus84/LocusReplicationGraph)!). example. This provides more functionality for creating rules for specific actors through the replication graph blueprint and is a great place to go after this article. There’s also a great example in the Lyra sample (make sure you’ve connected your [Epic account to Github](https://www.unrealengine.com/en-US/ue-on-github)!).
