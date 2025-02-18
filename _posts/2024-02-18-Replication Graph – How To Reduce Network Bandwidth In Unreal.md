@@ -7,7 +7,7 @@ excerpt: UnrealEngine
 tags: [Notes]
 image:
   feature: note.jpg
-  thumb: RepGragh1.jpg
+  thumb: ../images/VisibilityBasedRelevancy.gif
 date: 2024-02-17T02:54:48+05:30
 ---
 
@@ -19,7 +19,7 @@ Maintaining bandwidth limits is often manageable when only a few players are inv
 
 One of Unreal’s key systems for addressing this issue is [Actor Relevancy](https://dev.epicgames.com/documentation/en-us/unreal-engine/actor-relevancy-and-priority?application_version=4.27). This system reduces bandwidth usage by removing actors from a player’s view when they are too far away. As a result, no updates are needed for these actors, which eliminates the need to transmit unnecessary data.
 
-![Replication Graph4](../images/videoframe_2115.png)
+![Replication Graph4](../images/Relevancy.gif)
 
 However, distance-based culling alone isn't enough. A common gameplay mechanic, like fog of war, requires players to only see enemy team members if their teammates have line of sight. [The Replication Graph](https://dev.epicgames.com/documentation/en-us/unreal-engine/replication-graph?application_version=4.27) can be used here to establish more advanced rules about what data each player should receive. In fog of war scenarios, this feature can further restrict access to sensitive information, like enemy positions, thus preventing cheating (e.g., wall hacks). Moreover, this optimization not only reduces network traffic but also improves CPU performance by freeing up server resources.
 
@@ -607,7 +607,7 @@ TArray<UTutorialConnectionManager*> FTeamConnectionListMap::GetVisibleConnection
 
 That’s it! GatherActorListsForConnection will regularly update our visible actors which means the other team will pop in and out of visibility, and when they’re not visible we no longer need to send any info about the pawn.
 
-![Replication Graph5](../images/videoframe_2798.png)
+![Replication Graph5](../images/VisibilityBasedRelevancy.gif)
 
 ## Further Reading
 Hopefully this has been a nice introduction to how powerful the replication graph can be but we’ve only really scratched the surface. I’ve made the repository for this example public at Github if you’d prefer to read through it in your own time.
