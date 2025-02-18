@@ -6,8 +6,8 @@ categories:
 excerpt: UnrealEngine
 tags: [Notes]
 image:
-  feature: note.jpg
-  thumb: images/VisibilityBasedRelevancy.gif
+  feature: VisibilityBasedRelevancy.gif
+  thumb: thumb1.jpg
 date: 2024-02-17T02:54:48+05:30
 ---
 
