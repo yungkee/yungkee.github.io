@@ -37,28 +37,6 @@ First of all we need to enable the plugin like any other plugin, by adding “Re
 We can then go ahead to create a new class that inherits from UReplicationGraph.
 
 ```cs
-/* Style for images */
-img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-/* Style for code blocks */
-pre code {
-  font-size: 1rem;
-  color: #f8f8f2;
-  background-color: #2e2e2e;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-/* Style for headings */
-h1, h2, h3 {
-  color: #3a3a3a;
-  font-family: 'Arial', sans-serif;
-  margin-bottom: 20px;
-}
 
   
 #pragma once
