@@ -7,7 +7,7 @@ excerpt: UnrealEngine
 tags: [Notes]
 image:
   feature: note.jpg
-  thumb: thumb1.jpg
+  thumb: RepGragh1.jpg
 date: 2024-02-17T02:54:48+05:30
 ---
 
@@ -19,9 +19,11 @@ Maintaining bandwidth limits is often manageable when only a few players are inv
 
 One of Unreal’s key systems for addressing this issue is [Actor Relevancy](https://dev.epicgames.com/documentation/en-us/unreal-engine/actor-relevancy-and-priority?application_version=4.27). This system reduces bandwidth usage by removing actors from a player’s view when they are too far away. As a result, no updates are needed for these actors, which eliminates the need to transmit unnecessary data.
 
+![Replication Graph2](videoframe_2115.png)
+
 However, distance-based culling alone isn't enough. A common gameplay mechanic, like fog of war, requires players to only see enemy team members if their teammates have line of sight. [The Replication Graph](https://dev.epicgames.com/documentation/en-us/unreal-engine/replication-graph?application_version=4.27) can be used here to establish more advanced rules about what data each player should receive. In fog of war scenarios, this feature can further restrict access to sensitive information, like enemy positions, thus preventing cheating (e.g., wall hacks). Moreover, this optimization not only reduces network traffic but also improves CPU performance by freeing up server resources.
 
-##Setting Up The Replication Graph
+## Setting Up The Replication Graph
 
 First of all we need to enable the plugin like any other plugin, by adding “ReplicationGraph” to PrivateDependencyModuleNames in your build.cs and adding the plugin to enabled plugins in your .uproject. 
 
@@ -63,7 +65,8 @@ ReplicationDriverClassName="/Game/BP_TutorialRepGraph.BP_TutorialRepGraph_C"
 
 A node is how we specify rules for who should receive what data and we can add or remove actors to these nodes as we need. Each connection is assigned their own connection manager which holds the nodes for any unique rules. For this example I’d like to recreate a fog of war scenario where players can always see other members of their own team, but can only see the opposing players when they have entered the player’s line of sight. To visualise this I have set up characters which get assigned to a random team when spawned and coloured to match.
 
-![Replication Graph1](assets/rep1.jpg)
+![Replication Graph1](rep1.jpg)
+
 
 The first step is to set up the different type of nodes we will need to make this happen. We have two functions we must override to do this: InitGlobalGraphNodes and InitConnectionGraphNodes. These functions give us the opportunity to set up nodes that all connections and actors will require and nodes that specify rules per player.
 
