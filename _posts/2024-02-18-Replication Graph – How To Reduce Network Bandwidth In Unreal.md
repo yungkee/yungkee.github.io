@@ -19,7 +19,7 @@ Maintaining bandwidth limits is often manageable when only a few players are inv
 
 One of Unreal’s key systems for addressing this issue is [Actor Relevancy](https://dev.epicgames.com/documentation/en-us/unreal-engine/actor-relevancy-and-priority?application_version=4.27). This system reduces bandwidth usage by removing actors from a player’s view when they are too far away. As a result, no updates are needed for these actors, which eliminates the need to transmit unnecessary data.
 
-![Replication Graph2](videoframe_2115.png)
+![Replication Graph3](videoframe_2115.png)
 
 However, distance-based culling alone isn't enough. A common gameplay mechanic, like fog of war, requires players to only see enemy team members if their teammates have line of sight. [The Replication Graph](https://dev.epicgames.com/documentation/en-us/unreal-engine/replication-graph?application_version=4.27) can be used here to establish more advanced rules about what data each player should receive. In fog of war scenarios, this feature can further restrict access to sensitive information, like enemy positions, thus preventing cheating (e.g., wall hacks). Moreover, this optimization not only reduces network traffic but also improves CPU performance by freeing up server resources.
 
@@ -388,6 +388,8 @@ void ATutorialPlayerState::BeginPlay()
   }
 ```
 The result of this work is that each player can only see others in the same team. Great for a first step but only half way to where we want to be!
+
+![Replication Graph3](rep3.jpg)
 
 ## Cleaning Up
 
