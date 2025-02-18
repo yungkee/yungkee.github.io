@@ -7,7 +7,7 @@ excerpt: UnrealEngine
 tags: [Notes]
 image:
   feature: note.jpg
-  thumb: ../images/VisibilityBasedRelevancy.gif
+  thumb: images/VisibilityBasedRelevancy.gif
 date: 2024-02-17T02:54:48+05:30
 ---
 
