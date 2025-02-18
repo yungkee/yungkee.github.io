@@ -19,7 +19,7 @@ Maintaining bandwidth limits is often manageable when only a few players are inv
 
 One of Unreal’s key systems for addressing this issue is [Actor Relevancy](https://dev.epicgames.com/documentation/en-us/unreal-engine/actor-relevancy-and-priority?application_version=4.27). This system reduces bandwidth usage by removing actors from a player’s view when they are too far away. As a result, no updates are needed for these actors, which eliminates the need to transmit unnecessary data.
 
-![Replication Graph3](videoframe_2115.png)
+![Replication Graph4](videoframe_2115.png)
 
 However, distance-based culling alone isn't enough. A common gameplay mechanic, like fog of war, requires players to only see enemy team members if their teammates have line of sight. [The Replication Graph](https://dev.epicgames.com/documentation/en-us/unreal-engine/replication-graph?application_version=4.27) can be used here to establish more advanced rules about what data each player should receive. In fog of war scenarios, this feature can further restrict access to sensitive information, like enemy positions, thus preventing cheating (e.g., wall hacks). Moreover, this optimization not only reduces network traffic but also improves CPU performance by freeing up server resources.
 
@@ -494,3 +494,122 @@ void UTutorialRepGraph::ResetGameWorldState()
 ```
 
 ## Extending The Replication Graph To Use Visibility
+
+That took a lot of code to set up but now that we have got a base it should be easy enough to extend. To continue the example we’re going to add some raycasts so that it is possible to see the other teams if their actor is within line of sight.
+
+The first thing we need to do is cache the connection’s pawn when it is added to the node so that we can access it quickly each time we need to raycast. This should be fine for this example but typical projects may have more than one type of pawn per connection and may need more some more complex logic to properly handle changing pawns.
+
+```cs
+
+void UTutorialRepGraph::RouteAddNetworkActorToNodes(const FNewReplicatedActorInfo& ActorInfo,
+                                                    FGlobalActorReplicationInfo& GlobalInfo)
+{
+  // ...
+  else
+  {
+    ConnectionManager->TeamConnectionNode->NotifyAddNetworkActor(ActorInfo);
+
+    if (APawn* Pawn = Cast<APawn>(ActorInfo.GetActor()))
+    {
+      ConnectionManager->Pawn = Pawn;
+    }
+  }
+  // ...
+}
+```
+
+We can then add some functionality in our UReplicationGraphNode_AlwaysRelevant_ForTeam::GatherActorListsForConnection function to loop through each non team member connection graph and raycast to each of their pawns. If the raycast does not hit anything it means we have a line of sight to the target and we can add it to the list of actors to replicate.
+
+```cs
+
+void UReplicationGraphNode_AlwaysRelevant_ForTeam::GatherActorListsForConnection(
+  const FConnectionGatherActorListParameters& Params)
+{
+
+  {
+    // ... Add all team members
+
+    // Add all visible non-team actors to the list
+    const TArray<UTutorialConnectionManager*>& NonTeamConnections = ReplicationGraph->TeamConnectionListMap.GetVisibleConnectionArrayForNonTeam(ConnectionManager->Pawn.Get(), ConnectionManager->Team);
+
+    for (const UTutorialConnectionManager* NonTeamMember : NonTeamConnections)
+    {
+      NonTeamMember->TeamConnectionNode->GatherActorListsForConnectionDefault(Params);
+    }
+    
+    // ...
+  }
+}
+
+TArray<UTutorialConnectionManager*> FTeamConnectionListMap::GetVisibleConnectionArrayForNonTeam(const APawn* Pawn, int32 Team)
+{ 
+  TArray<UTutorialConnectionManager*> NonTeamConnections;
+
+  if (!IsValid(Pawn))
+  {
+    return NonTeamConnections;
+  }
+
+  // Setup query params and ignore all team members
+  TArray<UTutorialConnectionManager*>* TeamMembers = GetConnectionArrayForTeam(Team);
+    
+  FCollisionQueryParams TraceParams;
+  if (TeamMembers)
+  {
+    for (const UTutorialConnectionManager* ConnectionManager: *TeamMembers)
+    {
+      TraceParams.AddIgnoredActor(ConnectionManager->Pawn.Get());
+    }
+  }
+  else
+  {
+    TraceParams.AddIgnoredActor(Pawn);
+  }
+
+  // Iterate over all teams that do not match the input team
+  TArray<int32> Teams;
+  GetKeys(Teams);
+
+  const UWorld* World = Pawn->GetWorld();
+  const FVector TraceOffset = FVector(0.0f, 0.0f, 180.0f);
+  const FVector TraceStart = Pawn->GetActorLocation() + TraceOffset;
+  for (int32 i = 0; i < Teams.Num(); i++)
+  {
+    const int32 TeamID = Teams[i];
+    if (TeamID != Team)
+    {
+      const TArray<UTutorialConnectionManager*>* OtherTeamMembers = GetConnectionArrayForTeam(TeamID);
+
+      if (OtherTeamMembers)
+      {
+        for (UTutorialConnectionManager* ConnectionManager: *OtherTeamMembers)
+        {
+          if (!ConnectionManager->Pawn.IsValid())
+          {
+            continue;
+          }
+          
+          // Raycast between our pawn and the other. If we hit anything then we do not have line of sight
+          FHitResult OutHit;
+          const FVector TraceEnd = ConnectionManager->Pawn.Get()->GetActorLocation() + TraceOffset;
+          if (!World->LineTraceSingleByChannel(OutHit, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParams))
+          {
+            NonTeamConnections.Add(ConnectionManager);    
+          }
+        }
+      }
+    }
+  }
+
+  return NonTeamConnections;
+}
+```
+
+That’s it! GatherActorListsForConnection will regularly update our visible actors which means the other team will pop in and out of visibility, and when they’re not visible we no longer need to send any info about the pawn.
+
+![Replication Graph5](videoframe_2798.png)
+
+## Further Reading
+Hopefully this has been a nice introduction to how powerful the replication graph can be but we’ve only really scratched the surface. I’ve made the repository for this example public at Github if you’d prefer to read through it in your own time.
+
+Much of my knowledge is built from the LocusReplicationGraph example. This provides more functionality for creating rules for specific actors through the replication graph blueprint and is a great place to go after this article. There’s also a great example in the Lyra sample (make sure you’ve connected your Epic account to Github!).
